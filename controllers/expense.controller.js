@@ -1,10 +1,11 @@
 import { Expense } from "../models/expense.model.js";
-
+import { writeErrorToFile } from "../utils/errorLog.js";
 export const addExpense = async (req, res) => {
   try {
     const expense = await Expense.create({ ...req.body, userId: req.user.id });
     res.status(201).json(expense);
   } catch (err) {
+    writeErrorToFile(error.message);
     res.status(500).json({ message: err.message });
   }
 };
